@@ -1,0 +1,26 @@
+<div style="width: 100%;height: 100%;overflow: hidden;" (contextmenu)="contextMenu($event, menu)">
+  <canvas #canvas></canvas>
+  <nz-empty *ngIf="!drivers||drivers.length===0" style="width: 100%;height: 100%;" [nzNotFoundContent]="null"
+    nzNotFoundImage="simple">
+  </nz-empty>
+</div>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu>
+    <ng-container *ngFor="let driver of drivers">
+      <li nz-menu-group [nzTitle]="driver.host+':'+driver.port">
+        <ul>
+          <li *ngFor="let target of driver.targets" nz-menu-item [style.color]="target.id===pageId?'crimson':''"
+            (click)="startScreenCast(target)">
+            <nz-tag style="position: absolute;right: 0;" [nzColor]="'#40a9ffaa'">{{target.type}}</nz-tag>
+            <span>{{target.title||target.id}}</span>
+          </li>
+        </ul>
+      </li>
+    </ng-container>
+    <li nz-menu-divider></li>
+    <li nz-menu-item style="color: lightseagreen;" (click)="load(true)">
+      <i nz-icon nzType="reload" nzTheme="outline"></i>
+      <span>Reload</span>
+    </li>
+  </ul>
+</nz-dropdown-menu>
